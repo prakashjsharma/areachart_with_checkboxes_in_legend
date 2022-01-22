@@ -1,0 +1,248 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
+
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.js" ></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<style>
+    .chart{
+  color: black;
+  text-align: center;
+  font-weight: 600;
+  background-color: white;
+}
+.gray{
+  color: gray;
+  
+}
+
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 320px;
+    max-width: 800px;
+    margin: 1em auto;
+    background-color: transparent;
+}
+
+#container {
+    height: 450px;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+</style>
+<body >
+    <div class="" ">
+        <h5 class="chart">Active Off Shelf Display Compliance</h5>
+        <label class="gray">[Mar 1 - 31] </label>
+        <figure class="highcharts-figure">
+          <div id="CHART"></div>
+        </figure>
+        </div>
+</body>
+<script>
+    $(document).ready(function() {
+  CHART();
+
+});
+
+function CHART() {
+
+  plotLineId = 'myPlotLine'; // To identify for removal
+
+  // Plot line options for adding
+  plotLineOptions = {
+    color: 'black',
+    id: plotLineId,
+    width: 2,
+    value: 6,
+    zIndex: 10,
+    dashStyle: 'shortdash',
+    label: {
+      text: 'Average',
+      style: {
+        textAlign: 'right',
+        color: "black",
+
+      }
+
+
+    },
+  };
+
+  Highcharts.chart('CHART', {
+    colors: ['red', 'yellow', 'green', 'blue'],
+    chart: {
+
+      zoomType: 'x',
+      backgroundColor: 'transparent',
+    },
+    title: {
+      text: ''
+    },
+    subtitle: {
+      text: document.ontouchstart === undefined ? '' : ''
+    },
+    credits: { // for removing watermark
+      enabled: false
+    },
+    xAxis: {
+      type: 'datetime',
+
+    },
+    yAxis: {
+      plotLines: [
+        plotLineOptions
+      ],
+
+
+      gridLineWidth: 0,
+    },
+    legend: {
+      enabled: true,
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom',
+      useHTML: true,
+      labelFormatter: function() {
+        if (this.visible) {
+          return '<i class="far fa-check-square" style="color: ' + this.color + '"> &nbsp  ' + this.name + '</i>';
+        } else {
+          return '<i class="far fa-square" style="color:#adaaa0 /' + this.color + '/"> &nbsp  ' + this.name + '</i>';
+        }
+      },
+      symbolPadding: 0,
+      symbolWidth: 0,
+      symbolHeight: 0,
+      squareSymbol: false
+    },
+    plotOptions: {
+      area: {
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+          ]
+        },
+        marker: {
+          radius: 2
+        },
+        lineWidth: 1,
+        states: {
+          hover: {
+            lineWidth: 1
+          }
+        },
+        threshold: null
+      }
+    },
+
+    series: [{
+        type: 'area',
+        name: 'A',
+        data: [
+          [
+            1167609600000,
+            5
+          ],
+          [
+            1167696000000,
+            6
+          ],
+          [
+            1167782400000,
+            8
+          ]
+        ]
+      }, {
+        type: 'area',
+        name: 'B',
+        data: [
+          [
+            1167609600000,
+            8
+          ],
+          [
+            1167696000000,
+            2
+          ],
+          [
+            1167782400000,
+            6
+          ]
+        ]
+      },
+      {
+        // Series that mimics the plot line
+        color: 'black',
+        name: 'Average',
+        dashStyle: 'shortdash',
+        marker: {
+          enabled: false
+        },
+        events: {
+          legendItemClick: function(e) {
+            if (this.visible) {
+              this.chart.yAxis[0].removePlotLine(plotLineId);
+            } else {
+              this.chart.yAxis[0].addPlotLine(plotLineOptions);
+            }
+          }
+        }
+      }
+    ]
+  });
+}
+
+</script>
+</html>
