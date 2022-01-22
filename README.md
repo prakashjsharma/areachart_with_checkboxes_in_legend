@@ -1,0 +1,1 @@
+# areachart_with_checkboxes_in_legend
